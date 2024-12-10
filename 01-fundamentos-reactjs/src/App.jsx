@@ -1,7 +1,16 @@
+import Post from "./Post";
+
 function App() {
   return (
-    <h1>Hello Word</h1>
-  )
+    <>
+      <Post
+        author="Arthur Santos Gonçalves"
+        content="
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, est?"
+      />
+      <Post author="Jose da Silva" />
+    </>
+  );
 }
 
-export default App
+export default App;
