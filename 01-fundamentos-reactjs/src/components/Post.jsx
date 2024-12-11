@@ -11,7 +11,7 @@ export default function Post(props) {
         <div className={styles.author}>
           <img
             className={styles.avatar}
-            src="https://github.com/Thurzin11.png"
+            src={props.imgPath}
             alt=""
           />
           <div className={styles.authorInfo}>
@@ -67,6 +67,7 @@ export default function Post(props) {
 Post.propTypes = {
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
+  imgPath: PropTypes.string.isRequired,
   comments: PropTypes.arrayOf(
     PropTypes.shape({
       author: PropTypes.string.isRequired,
