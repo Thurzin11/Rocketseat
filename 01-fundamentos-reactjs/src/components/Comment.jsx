@@ -1,7 +1,8 @@
 import styles  from "./Comment.module.css";
 import { ThumbsUp, Trash } from "phosphor-react";
+import PropTypes from "prop-types";
 
-function Comment() {
+function Comment(props) {
   return (
     <div className={styles.comment}>
       <img src="https://github.com/Thurzin11.png" />
@@ -9,7 +10,7 @@ function Comment() {
         <div className={styles.commentContent}>
           <header>
             <div className={styles.authorAndTime}>
-              <strong>Arthur</strong>
+              <strong>{props.author}</strong>
               <time title="10 de dezembro de 2024 as 13h" dateTime="2024-10-12">
                 Cerca de 1h atras
               </time>
@@ -18,7 +19,7 @@ function Comment() {
                 <Trash size={24} />
               </button>
           </header>
-          <p>Muito bom Devon, parabens!! </p>
+          <p>{props.textCommand}</p>
         </div>
         <footer>
             <button>
@@ -29,6 +30,11 @@ function Comment() {
       </div>
     </div>
   );
+}
+
+Comment.propTypes = {
+  author: PropTypes.string.isRequired,
+  textCommand: PropTypes.string.isRequired,
 }
 
 export default Comment;

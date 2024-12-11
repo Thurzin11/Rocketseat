@@ -1,7 +1,10 @@
+import PropTypes from "prop-types";
 import Comment from "./Comment";
 import styles from "./Post.module.css";
 
-export default function Post() {
+
+
+export default function Post(props) {
   return (
     <article className={styles.post}>
       <header>
@@ -12,7 +15,7 @@ export default function Post() {
             alt=""
           />
           <div className={styles.authorInfo}>
-            <strong>Arthur</strong>
+            <strong>{props.author}</strong>
             <span>Web Developer</span>
           </div>
         </div>
@@ -26,8 +29,7 @@ export default function Post() {
         <p>Fala galeraa 👋</p>
 
         <p>
-          Acabei de subir mais um projeto no meu portifa. É um projeto que fiz
-          no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
+          {props.content}
         </p>
 
         <p>
@@ -48,10 +50,27 @@ export default function Post() {
         </footer>
       </form>
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment / >
+        {
+          props.comments.map((comment, index) => (
+            <Comment
+              key={index}
+              author={comment.author}
+              textCommand={comment.textComment}
+            />
+          ))
+        }
       </div>
     </article>
   );
 }
+
+Post.propTypes = {
+  author: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      author: PropTypes.string.isRequired,
+      textComment: PropTypes.string.isRequired,
+    })
+  ),
+};
