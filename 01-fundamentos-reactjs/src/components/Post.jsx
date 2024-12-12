@@ -26,6 +26,10 @@ export default function Post(props) {
     setComments([...comments,newComment])
   }
 
+  const deleteComment = (comment) => {
+    setComments(comments.filter((c) => c.textComment !== comment));
+}
+
 
   return (
     <article className={styles.post}>
@@ -63,11 +67,13 @@ export default function Post(props) {
         </footer>
       </form>
       <div className={styles.commentList}>
-        {comments.map((comment, index) => (
+        {comments.map((comment) => (
           <Comment
-            key={index}
+            key={comment.textComment}
+            idPost={props.idPost}
             author={comment.author}
             textCommand={comment.textComment}
+            deleteComment={deleteComment}
           />
         ))}
       </div>
@@ -76,6 +82,7 @@ export default function Post(props) {
 }
 
 Post.propTypes = {
+  idPost: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   imgPath: PropTypes.string.isRequired,
@@ -85,5 +92,5 @@ Post.propTypes = {
       author: PropTypes.string.isRequired,
       textComment: PropTypes.string.isRequired,
     })
-  ),
+  )
 };

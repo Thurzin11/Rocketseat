@@ -16,7 +16,7 @@ function Comment(props) {
               </time>
             </div>
               <button title="Deletar comentario">
-                <Trash size={24} />
+                <Trash size={24} onClick={()=>{props.deleteComment(props.textCommand)}} />
               </button>
           </header>
           <p>{props.textCommand}</p>
@@ -33,8 +33,10 @@ function Comment(props) {
 }
 
 Comment.propTypes = {
+  idPost: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   textCommand: PropTypes.string.isRequired,
+  deleteComment: PropTypes.func.isRequired,
 }
 
 export default Comment;

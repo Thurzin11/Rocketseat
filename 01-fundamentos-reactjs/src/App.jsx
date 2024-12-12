@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Post from "./components/Post";
 function App() {
-  const posts = [
+  let posts = [
     {
       id: 1,
       author: {
@@ -43,6 +43,7 @@ function App() {
     },
   ];
 
+
   return (
     <div>
       <Header />
@@ -52,6 +53,7 @@ function App() {
           {posts.map((post) => (
             <Post
               key={post.id}
+              idPost={post.id}
               author={post.author.name}
               content={post.content}
               comments={post.comments}
