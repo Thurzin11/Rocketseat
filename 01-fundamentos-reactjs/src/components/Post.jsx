@@ -2,34 +2,41 @@ import PropTypes from "prop-types";
 import Comment from "./Comment";
 import styles from "./Post.module.css";
 import { format, formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { id, ptBR } from "date-fns/locale";
 import { useState } from "react";
+import { deleteOneComment, postComment } from "../api/comments";
 
 export default function Post(props) {
-  const publisheDateFormater = format(props.postedAt,"dd 'de' LLLL 'de' yyyy 'as' HH:mm'h'",{
-    locale: ptBR,
-  });
+  // const publisheDateFormater = format(props.postedAt,"dd 'de' LLLL 'de' yyyy 'as' HH:mm'h'",{
+  //   locale: ptBR,
+  // });
 
-  const publishedDateRelativeToNow = formatDistanceToNow(props.postedAt, {
-    locale: ptBR,
-    addSuffix: true,
-  })
+  // const publishedDateRelativeToNow = formatDistanceToNow(props.postedAt, {
+  //   locale: ptBR,
+  //   addSuffix: true,
+  // })
   const [comments, setComments] = useState(props.comments);
 
   const handleCommentSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const textComment = event.target.comment.value;
     const newComment = {
-      author: "Arthur",
+      author: {
+        id: 1,
+      },
       textComment,
-    }  
-    setComments([...comments,newComment])
-  }
+      post:{
+        id: props.idPost,
+      }
+    };
+    postComment(newComment);
+  };
 
-  const deleteComment = (comment) => {
-    setComments(comments.filter((c) => c.textComment !== comment));
-}
-
+  const deleteComment = (commentId) => {
+    // setComments(comments.filter((c) => c.textComment !== comment));
+    deleteOneComment(commentId);
+    
+  };
 
   return (
     <article className={styles.post}>
@@ -37,14 +44,14 @@ export default function Post(props) {
         <div className={styles.author}>
           <img className={styles.avatar} src={props.imgPath} alt="" />
           <div className={styles.authorInfo}>
-            <strong>{props.author}</strong>
+            <strong>{props.author.name}</strong>
             <span>Web Developer</span>
           </div>
         </div>
 
-        <time title={publisheDateFormater} dateTime={props.postedAt.toISOString()}>
+        {/* <time title={publisheDateFormater} dateTime={props.postedAt.toISOString()}>
           {publishedDateRelativeToNow} atras
-        </time>
+        </time> */}
       </header>
 
       <div className={styles.content}>
@@ -74,6 +81,7 @@ export default function Post(props) {
             author={comment.author}
             textCommand={comment.textComment}
             deleteComment={deleteComment}
+            idComment={comment.id}
           />
         ))}
       </div>
@@ -83,14 +91,25 @@ export default function Post(props) {
 
 Post.propTypes = {
   idPost: PropTypes.number.isRequired,
-  author: PropTypes.string.isRequired,
+  author: {
+    id: PropTypes.number.isRequired,
+    avatarUrl: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+  },
   content: PropTypes.string.isRequired,
   imgPath: PropTypes.string.isRequired,
   postedAt: PropTypes.any.isRequired,
   comments: PropTypes.arrayOf(
     PropTypes.shape({
-      author: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      author: {
+        id: PropTypes.number.isRequired,
+        avatarUrl: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        role: PropTypes.string.isRequired,
+      },
       textComment: PropTypes.string.isRequired,
     })
-  )
+  ),
 };
